@@ -1,8 +1,12 @@
 $grey : #545A5C;
 $lightgrey : #CBD1D2;
 $blue : #6691CC;
+$red : #D61643;
+$green : #8BBF43;
 
 .calendar{
+    position: relative;
+    overflow: hidden;
     text-transform: capitalize;
     text-align: center;
     font: 15px/1em inherit;
@@ -37,12 +41,18 @@ $blue : #6691CC;
         
         .btn-next{
             right:0;top:0; 
-        } 
+        }
+        
+        .month{
+            padding:0;
+            margin:0;
+        }
     }
     
     table{
-        border-spacing: 0px;
-        width: 100%;   
+        width: 100%;
+        margin: 20px 0;
+        border-spacing: 0px;  
     }
     
     thead{
@@ -74,5 +84,27 @@ $blue : #6691CC;
     
     .day.wrong-month{
         color: $lightgrey;
+    }
+    
+    .day.wrong-month:hover{
+        border: 2px solid transparent;
+    }
+    
+    .event-container{
+        display: none;
+        position:absolute;
+        top:0;left:0;
+        width: 100%;
+        height: 100%;
+        background:$grey;
+    }
+    
+    .filler{
+        position:absolute;
+        width:0;
+        height:0;
+        border-radius:50%;
+        background:$grey;
+        transform: translate(-50%,-50%);
     }
 }

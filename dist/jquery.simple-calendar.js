@@ -13,7 +13,7 @@
     };
 
     // The actual plugin constructor
-    function Plugin ( element, options ) {
+    function Plugin ( element, options ) {        
         this.element = element;
         this.settings = $.extend( {}, defaults, options );
         this._defaults = defaults;
@@ -28,13 +28,15 @@
             var todayDate = new Date();
             
             var calendar = $('<div class="calendar"></div>');
+            var eventContainer = $('<div class="event-container"></div>');
             
             
             this.buildCalendar(todayDate,calendar);
             
+            calendar.append(eventContainer);
             container.append(calendar);
             
-            this.initEvents();
+            this.bindEvents();
         },
         
         //Build calendar of a month from date
@@ -96,14 +98,65 @@
             calendar.append(header);
             calendar.append(body);
         },
-        
-        initEvents: function () {
+        //Init events listeners
+        bindEvents: function () {
+            var plugin = this;
+            
+            //Click previous month
             $('.btn-prev').click(function(){
                 console.log('click prev');
             });
             
+            //Click next month
             $('.btn-next').click(function(){
                 console.log('click next');
+            });
+            
+            //Click date open event form
+            $('.day').click(function(e){
+                plugin.fillUp($(plugin.element),e.pageX,e.pageY);
+            });
+            
+            //Click date open event form
+            $('.event-container').click(function(e){
+                plugin.empty($(plugin.element),e.pageX,e.pageY);
+            });
+        },
+        //Small effect to fillup a container
+        fillUp : function (elem,x,y){
+            var elemOffset = elem.offset();
+            
+            var filler = $('<div class="filler" style=""></div>');
+            filler.css("left", x-elemOffset.left);
+            filler.css("top", y-elemOffset.top);
+            
+            $('.calendar').append(filler);
+            
+            filler.animate({
+                width: "300%",
+                height: "300%"
+            }, 500, function() {
+                $('.event-container').show();
+                filler.hide();
+            });
+        },
+        //Small effect to empty a container
+        empty : function (elem,x,y){
+            var elemOffset = elem.offset();
+            
+            var filler = $('.filler');
+            filler.css("width", "300%");
+            filler.css("height", "300%");
+            
+            filler.show();
+            
+            $('.event-container').hide();
+            
+            filler.animate({
+                width: "0%",
+                height: "0%"
+            }, 500, function() {
+                filler.remove();
             });
         }
     });
