@@ -1,0 +1,78 @@
+$grey : #545A5C;
+$lightgrey : #CBD1D2;
+$blue : #6691CC;
+
+.calendar{
+    text-transform: capitalize;
+    text-align: center;
+    font: 15px/1em inherit;
+    color: $grey;
+    
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    header{
+        .btn{
+            display: inline-block;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            color: $lightgrey;
+            border-radius: 50%;
+            border: 2px solid $lightgrey;
+        }
+        
+        .btn:hover{
+            background:$lightgrey;
+            color: white;
+        }
+        
+        .btn-prev{
+            left:0;top:0;
+        } 
+        
+        .btn-next{
+            right:0;top:0; 
+        } 
+    }
+    
+    table{
+        border-spacing: 0px;
+        width: 100%;   
+    }
+    
+    thead{
+        font-size: 1.2em;
+        font-weight: 600;
+    }
+    
+    td{
+        padding: .8em .1em;
+    }
+    
+    .day{
+        display: inline-block;
+        width:2em;
+        height:2em;
+        line-height: 1.9em;
+        border-radius: 50%;
+        border: 2px solid transparent;
+    }
+    
+    .day:hover{
+        border: 2px solid $blue;  
+    }
+    
+    .day.today{
+        background: $blue;
+        color:white;
+    }
+    
+    .day.wrong-month{
+        color: $lightgrey;
+    }
+}
