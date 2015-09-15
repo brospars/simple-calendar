@@ -24,10 +24,10 @@ gulp.task('css', function() {
 
 // JS task
 gulp.task('js', function() {
-    return gulp.src('./src/simple-calendar.jquery.js')
+    return gulp.src('./src/jquery.simple-calendar.js')
         .pipe(plumber())
         .pipe(gulp.dest('./dist/')) // Full version
-        .pipe(rename('simple-calendar.min.jquery.js'))
+        .pipe(rename('jquery.simple-calendar.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/')); // Minify version
 });
