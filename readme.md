@@ -35,9 +35,16 @@ To customize its settings simply overwrite them like below :
 ```javascript
 $(document).ready(function(){
     $("#container").simpleCalendar({
-        //options...
+        //Defaults options below
+        months: ['january','february','march','april','may','june','july','august','september','october','november','december'], //string of months starting from january
+        days: ['sunday','monday','tuesday','wenesday','thursday','friday','saturday'], //string of days starting from sunday
+        minDate : "YYYY-MM-DD", // minimum date
+        maxDate : "YYYY-MM-DD", // maximum date
+        insertEvent: true, // can insert events
+        displayEvent: true, // display existing event
+        fixedStartDay: true, // Week begin always by monday
+        event: [], //List of event
+        insertCallback : function(){} // Callback when an event is added to the calendar
     });
 });
 ```
-
-These settings are the default ones.
