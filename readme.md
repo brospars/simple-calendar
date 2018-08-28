@@ -43,7 +43,7 @@ $(document).ready(function(){
         insertEvent: true, // can insert events
         displayEvent: true, // display existing event
         fixedStartDay: true, // Week begin always by monday
-        event: [], //List of event
+        events: [], //List of event
         insertCallback : function(){} // Callback when an event is added to the calendar
     });
 });

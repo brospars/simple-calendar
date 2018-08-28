@@ -14,7 +14,7 @@
             insertEvent: true, // can insert events
             displayEvent: true, // display existing event
             fixedStartDay: true, // Week begin always by monday
-            event: [], //List of event
+            events: [], //List of event
             insertCallback : function(){} // Callback when an event is added to the calendar
         };
 
@@ -25,6 +25,7 @@
         this._defaults = defaults;
         this._name = pluginName;
         this.currentDate = new Date();
+        this.events = options.events;
         this.init();
     }
 
@@ -33,6 +34,7 @@
         init: function () {
             var container = $(this.element);
             var todayDate = this.currentDate;
+            var events = this.events;
             
             var calendar = $('<div class="calendar"></div>');
             var header = $('<header>'+
@@ -85,14 +87,26 @@
             while(lastDay.getDay() != 0){
                 lastDay.setDate(lastDay.getDate()+1);
             }
-            
+
+            console.log(plugin);
+
             //For firstDay to lastDay
             for(var day = firstDay; day <= lastDay; day.setDate(day.getDate())) {
                 var tr = $('<tr></tr>');
+
                 //For each row
                 for(var i = 0; i<7; i++) {
                     var td = $('<td><a href="#" class="day">'+day.getDate()+'</a></td>');
                     //if today is this day
+
+                    var ymd = day.getFullYear() + '-' + day.getMonth() + '-' + day.getDay();
+                    var ymd = this.formatToYYYYMMDD(day);
+                    console.log(ymd);
+                    if($.inArray(this.formatToYYYYMMDD(day), plugin.events) !== -1) {
+                      console.log('found');
+                      td.find(".day").addClass("event");
+                    }
+
                     if(day.toDateString() === (new Date).toDateString()){
                         td.find(".day").addClass("today");
                     }
@@ -174,6 +188,17 @@
             }, 500, function() {
                 filler.remove();
             });
+        },
+        formatToYYYYMMDD: function (date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('-');
         }
     });
 

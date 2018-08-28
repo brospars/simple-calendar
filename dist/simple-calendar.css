@@ -38,7 +38,7 @@
     font-size: 1.2em;
     font-weight: 600; }
   .calendar td {
-    padding: 0.8em 0.1em; }
+    padding: .8em .1em; }
   .calendar .day {
     display: inline-block;
     width: 2em;
@@ -49,6 +49,9 @@
   .calendar .day:hover {
     border: 2px solid #6691CC; }
   .calendar .day.today {
+    background: #6691CC;
+    color: white; }
+  .calendar .day.event {
     background: #6691CC;
     color: white; }
   .calendar .day.wrong-month {

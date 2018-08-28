@@ -81,7 +81,12 @@ $green : #8BBF43;
         background: $blue;
         color:white;
     }
-    
+
+    .day.event{
+        background: $blue;
+        color:white;
+    }
+
     .day.wrong-month{
         color: $lightgrey;
     }
