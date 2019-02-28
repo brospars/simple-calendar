@@ -1,5 +1,5 @@
 # Simple Calendar
-![preview](https://raw.githubusercontent.com/monsterbrain/simple-calendar/master/demo/screenshot.jpg)
+![preview](demo/screenshot.jpg)
 
 A simple and easy plugin to create a calendar and add events to it.
 
