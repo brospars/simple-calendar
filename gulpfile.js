@@ -1,41 +1,31 @@
-var gulp      = require('gulp'),
-    rename    = require('gulp-rename'),     // Renommage des fichiers
-    sass      = require('gulp-sass'),       // Conversion des SCSS en CSS
-    jshint = require('gulp-jshint');
-    uglify    = require('gulp-uglify');     // Minification/Obfuscation des JS
-    plumber   = require('gulp-plumber'); // Evite l'arret de watch en cas d'erreur
+const { src, dest, parallel, watch } = require('gulp');
+const sass = require('gulp-sass');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
+const concat = require('gulp-concat');
+const plumber = require('gulp-plumber');
 
+sass.compiler = require('node-sass');
 
-// Lint Task
-gulp.task('lint', function() {
-    return gulp.src('js/*.js')
+function css() {
+    return src('src/*.scss')
         .pipe(plumber())
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
+        .pipe(sass())
+        .pipe(dest('dist'))
+}
 
-// Sass → CSS minify task
-gulp.task('css', function() {
-    return gulp.src('./src/*.scss')    // Prend en entrée les fichiers *.css
+function js() {
+    return src('src/jquery.simple-calendar.js')
         .pipe(plumber())
-        .pipe(sass())                   // transform le sass en css
-        .pipe(gulp.dest('./dist/'));  // Sauvegarde le tout dans /src/style
-});
-
-// JS task
-gulp.task('js', function() {
-    return gulp.src('./src/jquery.simple-calendar.js')
-        .pipe(plumber())
-        .pipe(gulp.dest('./dist/')) // Full version
+        .pipe(dest('dist'))
         .pipe(rename('jquery.simple-calendar.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('./dist/')); // Minify version
-});
+        .pipe(dest('dist'));
+}
 
-gulp.task('watch', function() {
-    gulp.watch('./src/*.js', ['lint', 'js', 'css']);
-    gulp.watch('./src/*.scss', ['css']);
-});
+watch('src/*.scss', css);
+watch('src/*.js', js);
 
-// Default Task
-gulp.task('default', ['lint', 'css', 'js', 'watch']);
+exports.js = js;
+exports.css = css;
+exports.default = parallel(css, js);

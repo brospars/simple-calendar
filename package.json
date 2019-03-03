@@ -12,12 +12,12 @@
   "author": "Benoit Rospars (@benuuts)",
   "license": "MIT",
   "devDependencies": {
-    "gulp-rename": "~1.2.2",
-    "gulp-uglify": "~1.4.1",
-    "gulp-sass": "~2.0.4",
-    "gulp-concat": "~2.6.0",
-    "gulp-jshint": "~1.11.2",
-    "gulp": "~3.9.0",
-    "gulp-plumber": "~1.0.1"
+    "gulp": "^4.0.0",
+    "gulp-concat": "*",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.2",
+    "node-sass": "^4.11.0"
   }
 }
