@@ -10,7 +10,7 @@
     "image"
   ],
   "author": "Benoit Rospars (@benuuts)",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "devDependencies": {
     "gulp-rename": "~1.2.2",
     "gulp-uglify": "~1.4.1",
