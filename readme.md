@@ -1,5 +1,5 @@
 # Simple Calendar
-![preview](demo/screenshot.jpg)
+![preview](assets/screenshot.jpg)
 
 A simple and easy plugin to create a calendar and add events to it.
 
