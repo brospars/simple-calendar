@@ -41,10 +41,10 @@ $(document).ready(function(){
         days: ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'], //string of days starting from sunday
         minDate : "YYYY-MM-DD",         // minimum date
         maxDate : "YYYY-MM-DD",         // maximum date
+        displayYear: true,              // Display year in header
         fixedStartDay: true,            // Week begin always by monday
-        displayEvent: true,             // display existing event
-        events: [],                      // List of events
-        insertCallback : function(){}   // Callback when an event is added to the calendar
+        displayEvent: true,             // Display existing event
+        events: [],                     // List of events
     });
 });
 ```

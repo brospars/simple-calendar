@@ -11,9 +11,10 @@
             days: ['sunday','monday','tuesday','wenesday','thursday','friday','saturday'], //string of days starting from sunday
             minDate : "YYYY-MM-DD", // minimum date
             maxDate : "YYYY-MM-DD", // maximum date
-            insertEvent: true, // can insert events
+            displayYear: true, // display year in header
+            fixedStartDay: true, // Week begin always by monday
             displayEvent: true, // display existing event
-            events: [], //List of event
+            events: [], // List of event
         };
 
     // The actual plugin constructor
@@ -50,7 +51,9 @@
         
         //Update the current month header
         updateHeader: function (date, header) {
-            header.find('.month').html(this.settings.months[date.getMonth()]);
+            var monthText = this.settings.months[date.getMonth()];
+            monthText += this.settings.displayYear ? ' <div class="year">' + date.getFullYear() : '</div>';
+            header.find('.month').html(monthText);
         },
         
         //Build calendar of a month from date
