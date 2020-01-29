@@ -34,13 +34,33 @@ $green : #8BBF43;
             background:$lightgrey;
             color: white;
         }
-        
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 9px;
+            left: 8px;
+            width: 8px;
+            height: 8px;
+            border-style: solid;
+            border-width: 3px 3px 0 0;
+            transform: rotate(45deg);
+            transform-origin: center center;
+        }
+
         .btn-prev{
-            left:0;top:0;
-        } 
-        
+            top:0;
+            left:0;
+            transform: rotate(-180deg);
+        }
+
         .btn-next{
-            right:0;top:0; 
+            top:0;
+            right:0;
+
+            &:before{
+                transform: rotate(45deg);
+            }
         }
         
         .month{
