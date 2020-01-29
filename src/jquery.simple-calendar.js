@@ -15,6 +15,7 @@
             fixedStartDay: true, // Week begin always by monday
             displayEvent: true, // display existing event
             events: [], // List of event
+            onMonthChange: function(month, year){} // Callback on month change
         };
 
     // The actual plugin constructor
@@ -130,22 +131,24 @@
             calendar.append(body);
             calendar.append(eventContainer);
         },
+        changeMonth: function (value) {
+            this.currentDate.setMonth(this.currentDate.getMonth()+value);
+            this.buildCalendar(this.currentDate, $('.calendar'));
+            this.updateHeader(this.currentDate, $('.calendar header'));
+            this.settings.onMonthChange(this.currentDate.getMonth(), this.currentDate.getFullYear())
+        },
         //Init global events listeners
         bindEvents: function () {
             var plugin = this;
             
             //Click previous month
             $('.btn-prev').click(function(){
-                plugin.currentDate.setMonth(plugin.currentDate.getMonth()-1);
-                plugin.buildCalendar(plugin.currentDate, $('.calendar'));
-                plugin.updateHeader(plugin.currentDate, $('.calendar header'));
+                plugin.changeMonth(-1)
             });
             
             //Click next month
             $('.btn-next').click(function(){
-                plugin.currentDate.setMonth(plugin.currentDate.getMonth()+1);
-                plugin.buildCalendar(plugin.currentDate, $('.calendar'));
-                plugin.updateHeader(plugin.currentDate, $('.calendar header'));
+                plugin.changeMonth(1)
             });
         },
         //Small effect to fillup a container
