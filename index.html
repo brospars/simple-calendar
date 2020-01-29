@@ -20,7 +20,21 @@
     <script>
         $(document).ready(function(){
             $("#container").simpleCalendar({
-                fixedStartDay: false
+                fixedStartDay: false,
+                events: [
+                    // generate new event after tomorrow for one hour
+                    {
+                        startDate: new Date(new Date().setHours(new Date().getHours() + 24)),
+                        endDate: new Date(new Date().setHours(new Date().getHours() + 25)),
+                        summary: 'Visit of the Eiffel Tower'
+                    },
+                    // generate new event for the last two days
+                    {
+                        startDate: new Date(new Date().setHours(new Date().getHours() - 24)),
+                        endDate: new Date(new Date().setHours(new Date().getHours() - 24)),
+                        summary: 'Visit of the Eiffel Tower'
+                    }
+                ]
             });
         });
     </script>

@@ -65,29 +65,48 @@ $green : #8BBF43;
     }
     
     .day{
+        position: relative;
         display: inline-block;
-        width:2em;
-        height:2em;
-        line-height: 1.9em;
+        width:2.5em;
+        height:2.5em;
+        line-height: 2.5em;
         border-radius: 50%;
         border: 2px solid transparent;
-    }
-    
-    .day:hover{
-        border: 2px solid $blue;  
-    }
-    
-    .day.today{
-        background: $blue;
-        color:white;
-    }
-    
-    .day.wrong-month{
-        color: $lightgrey;
-    }
-    
-    .day.wrong-month:hover{
-        border: 2px solid transparent;
+        cursor: pointer;
+
+        &:hover{
+            border: 2px solid $blue;
+        }
+
+        &.today{
+            background: $blue;
+            color:white;
+            &.has-event:after{
+                background: white;
+            }
+        }
+
+        &.wrong-month{
+            color: $lightgrey;
+        }
+
+        &.wrong-month:hover{
+            border: 2px solid transparent;
+        }
+
+        &.has-event{
+            cursor: pointer;
+            &:after{
+                content:'';
+                position: absolute;
+                top:calc(50% + .6em);
+                left:calc(50% - 2px);
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                background: $blue;
+            }
+        }
     }
     
     .event-container{

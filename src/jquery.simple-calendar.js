@@ -13,9 +13,7 @@
             maxDate : "YYYY-MM-DD", // maximum date
             insertEvent: true, // can insert events
             displayEvent: true, // display existing event
-            fixedStartDay: true, // Week begin always by monday
-            event: [], //List of event
-            insertCallback : function(){} // Callback when an event is added to the calendar
+            events: [], //List of event
         };
 
     // The actual plugin constructor
@@ -91,7 +89,7 @@
                 var tr = $('<tr></tr>');
                 //For each row
                 for(var i = 0; i<7; i++) {
-                    var td = $('<td><a href="#" class="day">'+day.getDate()+'</a></td>');
+                    var td = $('<td><div class="day">'+day.getDate()+'</div></td>');
                     //if today is this day
                     if(day.toDateString() === (new Date).toDateString()){
                         td.find(".day").addClass("today");
@@ -100,11 +98,21 @@
                     if(day.getMonth() != fromDate.getMonth()){
                        td.find(".day").addClass("wrong-month"); 
                     }
+
+                    // filter today's events
+                    var todayEvents = plugin.settings.events.filter(function(event){
+                        return plugin.isDayBetween(day, new Date(event.startDate), new Date(event.endDate));
+                    });
+
+                    if(todayEvents.length && plugin.settings.displayEvent) {
+                        td.find(".day").addClass("has-event");
+                    }
+
                     //Binding day event
                     td.on('click', function(e) {
-                        plugin.fillUp($(plugin.element),e.pageX,e.pageY);
+                      plugin.fillUp($(plugin.element),e.pageX,e.pageY);
                     });
-                    
+
                     tr.append(td);
                     day.setDate(day.getDate() + 1);
                 }
@@ -174,6 +182,13 @@
             }, 500, function() {
                 filler.remove();
             });
+        },
+        isDayBetween : function (d, dStart, dEnd) {
+            return this.getDayNumber(dStart) <= this.getDayNumber(d) && this.getDayNumber(d) <= this.getDayNumber(dEnd);
+        },
+        getDayNumber : function (d) {
+            return Math.round(d/(1000*60*60*24));
+
         }
     });
 
