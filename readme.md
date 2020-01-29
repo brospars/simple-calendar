@@ -38,9 +38,7 @@ $(document).ready(function(){
         //Defaults options below
         //string of months starting from january
         months: ['january','february','march','april','may','june','july','august','september','october','november','december'],
-        days: ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'], //string of days starting from sunday
-        minDate : "YYYY-MM-DD",         // minimum date
-        maxDate : "YYYY-MM-DD",         // maximum date
+        days: ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'],
         displayYear: true,              // Display year in header
         fixedStartDay: true,            // Week begin always by monday
         displayEvent: true,             // Display existing event

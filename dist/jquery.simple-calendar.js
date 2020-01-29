@@ -9,14 +9,11 @@
     defaults = {
       months: ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'], //string of months starting from january
       days: ['sunday', 'monday', 'tuesday', 'wenesday', 'thursday', 'friday', 'saturday'], //string of days starting from sunday
-      minDate: "YYYY-MM-DD", // minimum date
-      maxDate: "YYYY-MM-DD", // maximum date
       displayYear: true, // display year in header
       fixedStartDay: true, // Week begin always by monday
       displayEvent: true, // display existing event
       events: [], // List of event
-      onMonthChange: function (month, year) {
-      } // Callback on month change
+      onMonthChange: function (month, year) {} // Callback on month change
     };
 
   // The actual plugin constructor
