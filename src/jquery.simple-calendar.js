@@ -13,6 +13,7 @@
       fixedStartDay: true, // Week begin always by monday
       displayEvent: true, // display existing event
       events: [], // List of event
+      onInit: function (calendar) {}, // Callback after first initialization
       onMonthChange: function (month, year) {} // Callback on month change
     };
 
@@ -46,6 +47,7 @@
       container.append(calendar);
 
       this.bindEvents();
+      this.settings.onInit(this);
     },
 
     //Update the current month header
