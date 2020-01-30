@@ -14,7 +14,8 @@
       displayEvent: true, // display existing event
       events: [], // List of event
       onInit: function (calendar) {}, // Callback after first initialization
-      onMonthChange: function (month, year) {} // Callback on month change
+      onMonthChange: function (month, year) {}, // Callback on month change
+      onDateSelect: function (date, events) {} // Callback on date selection
     };
 
   // The actual plugin constructor
@@ -93,7 +94,7 @@
         var tr = $('<tr></tr>');
         //For each row
         for (var i = 0; i < 7; i++) {
-          var td = $('<td><div class="day">' + day.getDate() + '</div></td>');
+          var td = $('<td><div class="day" data-date="' + day.toISOString() + '">' + day.getDate() + '</div></td>');
           //if today is this day
           if (day.toDateString() === (new Date).toDateString()) {
             td.find(".day").addClass("today");
@@ -105,18 +106,11 @@
           }
 
           // filter today's events
-          var todayEvents = plugin.settings.events.filter(function (event) {
-            return plugin.isDayBetween(day, new Date(event.startDate), new Date(event.endDate));
-          });
+          var todayEvents = plugin.getDateEvents(day);
 
           if (todayEvents.length && plugin.settings.displayEvent) {
             td.find(".day").addClass("has-event");
           }
-
-          //Binding day event
-          td.on('click', function (e) {
-            plugin.fillUp($(plugin.element), e.pageX, e.pageY);
-          });
 
           tr.append(td);
           day.setDate(day.getDate() + 1);
@@ -127,15 +121,15 @@
       body.append(thead);
       body.append(tbody);
 
-      var eventContainer = $('<div class="event-container"></div>');
+      var eventContainer = $('<div class="event-container"><div class="close"></div></div>');
 
       calendar.append(body);
       calendar.append(eventContainer);
     },
     changeMonth: function (value) {
       this.currentDate.setMonth(this.currentDate.getMonth() + value);
-      this.buildCalendar(this.currentDate, $('.calendar'));
-      this.updateHeader(this.currentDate, $('.calendar header'));
+      this.buildCalendar(this.currentDate, $(this.element).find('.calendar'));
+      this.updateHeader(this.currentDate, $(this.element).find('.calendar header'));
       this.settings.onMonthChange(this.currentDate.getMonth(), this.currentDate.getFullYear())
     },
     //Init global events listeners
@@ -143,45 +137,78 @@
       var plugin = this;
 
       //Click previous month
-      $('.btn-prev').click(function () {
+      $(plugin.element).on('click', '.btn-prev', function () {
         plugin.changeMonth(-1)
       });
 
       //Click next month
-      $('.btn-next').click(function () {
+      $(plugin.element).on('click', '.btn-next', function () {
         plugin.changeMonth(1)
       });
+
+      //Binding day event
+      $(plugin.element).on('click', 'td', function (e) {
+        var date = new Date($(this).find('.day').data('date'));
+        var events = plugin.getDateEvents(date);
+        plugin.fillUp(e.pageX, e.pageY);
+        plugin.displayEvents(events);
+        plugin.settings.onDateSelect(date, events);
+      });
+
+      //Binding event container close
+      $(plugin.element).on('click', '.event-container .close', function (e) {
+        plugin.empty(e.pageX, e.pageY);
+      });
+    },
+    displayEvents: function (events) {
+      var plugin = this;
+      var container = $(this.element).find('.event-container');
+
+      events.forEach(function (event) {
+        var startDate = new Date(event.startDate);
+        var endDate = new Date(event.endDate);
+        var $event = $('' +
+          '<div class="event">' +
+          ' <div class="event-hour">' + startDate.getHours() + ':' + (startDate.getMinutes() < 10 ? '0' : '') + startDate.getMinutes() + '</div>' +
+          ' <div class="event-date">' + plugin.formatDateEvent(startDate, endDate) + '</div>' +
+          ' <div class="event-summary">' + event.summary + '</div>' +
+          '</div>');
+        container.append($event);
+      })
     },
     //Small effect to fillup a container
-    fillUp: function (elem, x, y) {
+    fillUp: function (x, y) {
       var plugin = this;
+      var elem = $(plugin.element);
       var elemOffset = elem.offset();
 
       var filler = $('<div class="filler" style=""></div>');
       filler.css("left", x - elemOffset.left);
       filler.css("top", y - elemOffset.top);
 
-      $('.calendar').append(filler);
+      elem.find('.calendar').append(filler);
 
       filler.animate({
         width: "300%",
         height: "300%"
       }, 500, function () {
-        $('.event-container').show();
+        elem.find('.event-container').show();
         filler.hide();
       });
     },
     //Small effect to empty a container
-    empty: function (elem, x, y) {
+    empty: function (x, y) {
+      var plugin = this;
+      var elem = $(plugin.element);
       var elemOffset = elem.offset();
 
-      var filler = $('.filler');
+      var filler = elem.find('.filler');
       filler.css("width", "300%");
       filler.css("height", "300%");
 
       filler.show();
 
-      $('.event-container').hide();
+      elem.find('.event-container').hide().find('.event').remove();
 
       filler.animate({
         width: "0%",
@@ -190,12 +217,27 @@
         filler.remove();
       });
     },
-    isDayBetween: function (d, dStart, dEnd) {
-      return this.getDayNumber(dStart) <= this.getDayNumber(d) && this.getDayNumber(d) <= this.getDayNumber(dEnd);
+    getDateEvents: function (d) {
+      var plugin = this;
+      return plugin.settings.events.filter(function (event) {
+        return plugin.isDayBetween(d, new Date(event.startDate), new Date(event.endDate));
+      });
     },
-    getDayNumber: function (d) {
-      return Math.round(d / (1000 * 60 * 60 * 24));
+    isDayBetween: function (d, dStart, dEnd) {
+      dStart.setHours(0,0,0);
+      dEnd.setHours(23,59,59,999);
+      d.setHours(12,0,0);
 
+      return dStart <= d && d <= dEnd;
+    },
+    formatDateEvent: function (dateStart, dateEnd) {
+      var formatted = '';
+      formatted += this.settings.days[dateStart.getDay()] + ' - ' + dateStart.getDate() + ' ' + this.settings.months[dateStart.getMonth()].substring(0, 3);
+
+      if (dateEnd.getDate() !== dateStart.getDate()) {
+        formatted += ' to ' + dateEnd.getDate() + ' ' + this.settings.months[dateEnd.getMonth()].substring(0, 3)
+      }
+      return formatted;
     }
   });
 

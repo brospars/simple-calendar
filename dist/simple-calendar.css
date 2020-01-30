@@ -94,7 +94,46 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #545A5C; }
+    padding: 70px 20px 20px 20px;
+    background: #545A5C;
+    overflow-y: auto;
+    box-sizing: border-box; }
+    .calendar .event-container .close {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: 20px;
+      right: 20px;
+      cursor: pointer; }
+      .calendar .event-container .close:before, .calendar .event-container .close:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+        background-color: #CBD1D2; }
+      .calendar .event-container .close:before {
+        transform: rotate(45deg); }
+      .calendar .event-container .close:after {
+        transform: rotate(-45deg); }
+    .calendar .event-container .event {
+      position: relative;
+      width: 100%;
+      padding: 1em;
+      margin-bottom: 1em;
+      background: #6691CC;
+      border-radius: 4px;
+      box-sizing: border-box;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
+      text-align: left;
+      color: white; }
+      .calendar .event-container .event-date {
+        margin-bottom: 1em; }
+      .calendar .event-container .event-hour {
+        float: right; }
+      .calendar .event-container .event-summary {
+        font-weight: 600; }
   .calendar .filler {
     position: absolute;
     width: 0;

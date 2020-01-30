@@ -43,6 +43,20 @@ $(document).ready(function(){
         fixedStartDay: true,            // Week begin always by monday
         displayEvent: true,             // Display existing event
         events: [],                     // List of events
+        onInit: function (calendar) {}, // Callback after first initialization
+        onMonthChange: function (month, year) {}, // Callback on month change
+        onDateSelect: function (date, events) {} // Callback on date selection
     });
 });
+```
+
+#### Events
+
+Events are json object that contains `startDate`, `endDate`, and `summary`
+```javascript
+{
+    startDate: Date|timestamp|ISOstring,
+    endDate: Date|timestamp|ISOstring,
+    summary: string
+}
 ```
