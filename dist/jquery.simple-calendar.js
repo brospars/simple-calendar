@@ -121,7 +121,7 @@
       body.append(thead);
       body.append(tbody);
 
-      var eventContainer = $('<div class="event-container"><div class="close"></div></div>');
+      var eventContainer = $('<div class="event-container"><div class="close"></div><div class="event-wrapper"></div></div>');
 
       calendar.append(body);
       calendar.append(eventContainer);
@@ -162,7 +162,7 @@
     },
     displayEvents: function (events) {
       var plugin = this;
-      var container = $(this.element).find('.event-container');
+      var container = $(this.element).find('.event-wrapper');
 
       events.forEach(function (event) {
         var startDate = new Date(event.startDate);
