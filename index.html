@@ -39,6 +39,12 @@
                         startDate: new Date(new Date().setHours(new Date().getHours() - 48)).toISOString(),
                         endDate: new Date(new Date().setHours(new Date().getHours() - 24)).getTime(),
                         summary: 'Visit of the Louvre'
+                    },
+                    // generate new event for the last two days
+                    {
+                        startDate: new Date(new Date().setHours(new Date().getHours() + 360)).toISOString(),
+                        endDate: new Date(new Date().setHours(new Date().getHours() + 361)).getTime(),
+                        summary: 'New York trip'
                     }
                 ]
             });
