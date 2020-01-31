@@ -120,7 +120,6 @@ $green: #8BBF43;
     }
 
     &.has-event {
-      cursor: pointer;
       &:after {
         content: '';
         position: absolute;
@@ -130,6 +129,14 @@ $green: #8BBF43;
         height: 4px;
         border-radius: 50%;
         background: $blue;
+      }
+    }
+
+    &.disabled{
+      cursor: default;
+
+      &:hover {
+        border: 2px solid transparent;
       }
     }
   }
