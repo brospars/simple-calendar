@@ -12,6 +12,8 @@
       displayYear: true, // display year in header
       fixedStartDay: true, // Week begin always by monday
       displayEvent: true, // display existing event
+      disableEventDetails: false, // disable showing event details
+      disableEmptyDetails: false, // disable showing empty date details
       events: [], // List of event
       onInit: function (calendar) {}, // Callback after first initialization
       onMonthChange: function (month, year) {}, // Callback on month change
@@ -95,6 +97,7 @@
         //For each row
         for (var i = 0; i < 7; i++) {
           var td = $('<td><div class="day" data-date="' + day.toISOString() + '">' + day.getDate() + '</div></td>');
+
           //if today is this day
           if (day.toDateString() === (new Date).toDateString()) {
             td.find(".day").addClass("today");
@@ -109,7 +112,9 @@
           var todayEvents = plugin.getDateEvents(day);
 
           if (todayEvents.length && plugin.settings.displayEvent) {
-            td.find(".day").addClass("has-event");
+            td.find(".day").addClass(plugin.settings.disableEventDetails ? "has-event disabled" : "has-event");
+          } else {
+            td.find(".day").addClass(plugin.settings.disableEmptyDetails ? "disabled" : "");
           }
 
           tr.append(td);
@@ -147,8 +152,8 @@
       });
 
       //Binding day event
-      $(plugin.element).on('click', 'td', function (e) {
-        var date = new Date($(this).find('.day').data('date'));
+      $(plugin.element).on('click', '.day:not(.disabled)', function (e) {
+        var date = new Date($(this).data('date'));
         var events = plugin.getDateEvents(date);
         plugin.fillUp(e.pageX, e.pageY);
         plugin.displayEvents(events);
