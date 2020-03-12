@@ -152,11 +152,13 @@
       });
 
       //Binding day event
-      $(plugin.element).on('click', '.day:not(.disabled)', function (e) {
+      $(plugin.element).on('click', '.day', function (e) {
         var date = new Date($(this).data('date'));
         var events = plugin.getDateEvents(date);
-        plugin.fillUp(e.pageX, e.pageY);
-        plugin.displayEvents(events);
+        if (!$(this).hasClass('disabled')) {
+          plugin.fillUp(e.pageX, e.pageY);
+          plugin.displayEvents(events);
+        }
         plugin.settings.onDateSelect(date, events);
       });
 
