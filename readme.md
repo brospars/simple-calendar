@@ -45,7 +45,8 @@ $(document).ready(function(){
         events: [],                     // List of events
         onInit: function (calendar) {}, // Callback after first initialization
         onMonthChange: function (month, year) {}, // Callback on month change
-        onDateSelect: function (date, events) {} // Callback on date selection
+        onDateSelect: function (date, events) {}, // Callback on date selection
+        onEventSelect: function() {} // Callback on event selection - use $(this).data('event') to access the event
     });
 });
 ```
