@@ -8,7 +8,7 @@
   .calendar a {
     text-decoration: none;
     color: inherit; }
-  .calendar header .btn {
+  .calendar header .simple-calendar-btn {
     display: inline-block;
     position: absolute;
     width: 30px;
@@ -18,10 +18,10 @@
     color: #CBD1D2;
     border-radius: 50%;
     border: 2px solid #CBD1D2; }
-  .calendar header .btn:hover {
+  .calendar header .simple-calendar-btn:hover {
     background: #CBD1D2;
     color: white; }
-  .calendar header .btn:before {
+  .calendar header .simple-calendar-btn:before {
     content: '';
     position: absolute;
     top: 9px;
