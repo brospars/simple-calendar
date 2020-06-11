@@ -143,13 +143,15 @@
       var plugin = this;
 
       //Click previous month
-      $(plugin.element).on('click', '.btn-prev', function () {
+      $(plugin.element).on('click', '.btn-prev', function ( e ) {
         plugin.changeMonth(-1)
+        e.preventDefault();
       });
 
       //Click next month
-      $(plugin.element).on('click', '.btn-next', function () {
-        plugin.changeMonth(1)
+      $(plugin.element).on('click', '.btn-next', function ( e ) {
+        plugin.changeMonth(1);
+        e.preventDefault();
       });
 
       //Binding day event
