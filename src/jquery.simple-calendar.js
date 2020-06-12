@@ -17,7 +17,8 @@
       events: [], // List of event
       onInit: function (calendar) {}, // Callback after first initialization
       onMonthChange: function (month, year) {}, // Callback on month change
-      onDateSelect: function (date, events) {} // Callback on date selection
+      onDateSelect: function (date, events) {}, // Callback on date selection
+      onEventSelect: function () {} // Callback fired when an event is selected - see $.data('event')
     };
 
   // The actual plugin constructor
@@ -180,6 +181,8 @@
           ' <div class="event-date">' + plugin.formatDateEvent(startDate, endDate) + '</div>' +
           ' <div class="event-summary">' + event.summary + '</div>' +
           '</div>');
+        $event.data( 'event', event )
+        $event.click( plugin.settings.onEventSelect )
         container.append($event);
       })
     },
