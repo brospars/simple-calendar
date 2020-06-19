@@ -18,7 +18,9 @@
       onInit: function (calendar) {}, // Callback after first initialization
       onMonthChange: function (month, year) {}, // Callback on month change
       onDateSelect: function (date, events) {}, // Callback on date selection
-      onEventSelect: function () {} // Callback fired when an event is selected - see $.data('event')
+      onEventSelect: function () {},              // Callback fired when an event is selected     - see $(this).data('event')
+      onEventCreate: function( $el ) {},          // Callback fired when an HTML event is created - see $(this).data('event')
+      onDayCreate:   function( $el, d, m, y ) {}  // Callback fired when an HTML day is created   - see $(this).data('today'), .data('todayEvents')
     };
 
   // The actual plugin constructor
@@ -99,24 +101,32 @@
         for (var i = 0; i < 7; i++) {
           var td = $('<td><div class="day" data-date="' + day.toISOString() + '">' + day.getDate() + '</div></td>');
 
+          var $day = td.find('.day');
+
           //if today is this day
           if (day.toDateString() === (new Date).toDateString()) {
-            td.find(".day").addClass("today");
+            $day.addClass("today");
           }
 
           //if day is not in this month
           if (day.getMonth() != fromDate.getMonth()) {
-            td.find(".day").addClass("wrong-month");
+            $day.addClass("wrong-month");
           }
 
           // filter today's events
           var todayEvents = plugin.getDateEvents(day);
 
           if (todayEvents.length && plugin.settings.displayEvent) {
-            td.find(".day").addClass(plugin.settings.disableEventDetails ? "has-event disabled" : "has-event");
+            $day.addClass(plugin.settings.disableEventDetails ? "has-event disabled" : "has-event");
           } else {
-            td.find(".day").addClass(plugin.settings.disableEmptyDetails ? "disabled" : "");
+            $day.addClass(plugin.settings.disableEmptyDetails ? "disabled" : "");
           }
+
+          // associate some data available from the onDayCreate callback
+          $day.data( 'todayEvents', todayEvents );
+
+          // simplify further customization
+          this.settings.onDayCreate( $day, day.getDate(), m, y );
 
           tr.append(td);
           day.setDate(day.getDate() + 1);
@@ -183,8 +193,13 @@
           ' <div class="event-date">' + plugin.formatDateEvent(startDate, endDate) + '</div>' +
           ' <div class="event-summary">' + event.summary + '</div>' +
           '</div>');
-        $event.data( 'event', event )
-        $event.click( plugin.settings.onEventSelect )
+
+        $event.data( 'event', event );
+        $event.click( plugin.settings.onEventSelect );
+
+        // simplify further customization
+        plugin.settings.onEventCreate( $event );
+
         container.append($event);
       })
     },

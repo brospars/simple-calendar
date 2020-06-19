@@ -46,7 +46,9 @@ $(document).ready(function(){
         onInit: function (calendar) {}, // Callback after first initialization
         onMonthChange: function (month, year) {}, // Callback on month change
         onDateSelect: function (date, events) {}, // Callback on date selection
-        onEventSelect: function() {} // Callback on event selection - use $(this).data('event') to access the event
+        onEventSelect: function() {}, // Callback on event selection - use $(this).data('event') to access the event
+        onEventCreate: function( $el ) {},          // Callback fired when an HTML event is created - see $(this).data('event')
+        onDayCreate:   function( $el, d, m, y ) {}  // Callback fired when an HTML day is created   - see $(this).data('today'), .data('todayEvents')
     });
 });
 ```
