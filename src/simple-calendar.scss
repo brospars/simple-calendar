@@ -18,7 +18,7 @@ $green: #8BBF43;
   }
 
   header {
-    .btn {
+    .simple-calendar-btn {
       display: inline-block;
       position: absolute;
       width: 30px;
@@ -30,12 +30,12 @@ $green: #8BBF43;
       border: 2px solid $lightgrey;
     }
 
-    .btn:hover {
+    .simple-calendar-btn:hover {
       background: $lightgrey;
       color: white;
     }
 
-    .btn:before {
+    .simple-calendar-btn:before {
       content: '';
       position: absolute;
       top: 9px;
