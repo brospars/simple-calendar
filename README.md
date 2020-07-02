@@ -42,6 +42,8 @@ $(document).ready(function(){
         displayYear: true,              // Display year in header
         fixedStartDay: true,            // Week begin always by monday
         displayEvent: true,             // Display existing event
+        disableEventDetails: false, // disable showing event details
+        disableEmptyDetails: false, // disable showing empty date details
         events: [],                     // List of events
         onInit: function (calendar) {}, // Callback after first initialization
         onMonthChange: function (month, year) {}, // Callback on month change
