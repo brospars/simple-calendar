@@ -8,7 +8,7 @@
   var pluginName = "simpleCalendar",
     defaults = {
       months: ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'], //string of months starting from january
-      days: ['sunday', 'monday', 'tuesday', 'wenesday', 'thursday', 'friday', 'saturday'], //string of days starting from sunday
+      days: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'], //string of days starting from sunday
       displayYear: true, // display year in header
       fixedStartDay: true, // Week begin always by monday
       displayEvent: true, // display existing event
