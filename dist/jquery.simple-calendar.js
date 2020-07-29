@@ -10,14 +10,17 @@
       months: ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'], //string of months starting from january
       days: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'], //string of days starting from sunday
       displayYear: true, // display year in header
-      fixedStartDay: true, // Week begin always by monday
+      fixedStartDay: true, // Week begin always by monday or by day set by number 0 = sunday, 7 = saturday, false = month always begin by first day of the month
       displayEvent: true, // display existing event
       disableEventDetails: false, // disable showing event details
       disableEmptyDetails: false, // disable showing empty date details
       events: [], // List of event
       onInit: function (calendar) {}, // Callback after first initialization
       onMonthChange: function (month, year) {}, // Callback on month change
-      onDateSelect: function (date, events) {} // Callback on date selection
+      onDateSelect: function (date, events) {}, // Callback on date selection
+      onEventSelect: function () {},              // Callback fired when an event is selected     - see $(this).data('event')
+      onEventCreate: function( $el ) {},          // Callback fired when an HTML event is created - see $(this).data('event')
+      onDayCreate:   function( $el, d, m, y ) {}  // Callback fired when an HTML day is created   - see $(this).data('today'), .data('todayEvents')
     };
 
   // The actual plugin constructor
@@ -39,8 +42,8 @@
       var calendar = $('<div class="calendar"></div>');
       var header = $('<header>' +
         '<h2 class="month"></h2>' +
-        '<a class="calendar-btn btn-prev" href="#"></a>' +
-        '<a class="calendar-btn btn-next" href="#"></a>' +
+        '<a class="simple-calendar-btn btn-prev" href="#"></a>' +
+        '<a class="simple-calendar-btn btn-next" href="#"></a>' +
         '</header>');
 
       this.updateHeader(todayDate, header);
@@ -70,25 +73,33 @@
       var thead = $('<thead></thead>');
       var tbody = $('<tbody></tbody>');
 
-      //Header day in a week ( (1 to 8) % 7 to start the week by monday)
-      for (var i = 1; i <= this.settings.days.length; i++) {
-        thead.append($('<td>' + this.settings.days[i % 7].substring(0, 3) + '</td>'));
-      }
-
       //setting current year and month
       var y = fromDate.getFullYear(), m = fromDate.getMonth();
 
       //first day of the month
       var firstDay = new Date(y, m, 1);
-      //If not monday set to previous monday
-      while (firstDay.getDay() != 1) {
-        firstDay.setDate(firstDay.getDate() - 1);
-      }
       //last day of the month
       var lastDay = new Date(y, m + 1, 0);
-      //If not sunday set to next sunday
-      while (lastDay.getDay() != 0) {
-        lastDay.setDate(lastDay.getDate() + 1);
+      // Start day of weeks
+      var startDayOfWeek = firstDay.getDay();
+
+      if (this.settings.fixedStartDay !== false) {
+        // Backward compatibility
+        startDayOfWeek =  this.settings.fixedStartDay ? 1 : this.settings.fixedStartDay;
+
+        // If first day of month is different of startDayOfWeek
+        while (firstDay.getDay() !== startDayOfWeek) {
+          firstDay.setDate(firstDay.getDate() - 1);
+        }
+        // If last day of month is different of startDayOfWeek + 7
+        while (lastDay.getDay() !== ((startDayOfWeek + 7) % 7)) {
+          lastDay.setDate(lastDay.getDate() + 1);
+        }
+      }
+
+      //Header day in a week ( (x to x + 7) % 7 to start the week by monday if x = 1)
+      for (var i = startDayOfWeek; i < startDayOfWeek + 7; i++) {
+        thead.append($('<td>' + this.settings.days[i % 7].substring(0, 3) + '</td>'));
       }
 
       //For firstDay to lastDay
@@ -98,24 +109,32 @@
         for (var i = 0; i < 7; i++) {
           var td = $('<td><div class="day" data-date="' + day.toISOString() + '">' + day.getDate() + '</div></td>');
 
+          var $day = td.find('.day');
+
           //if today is this day
           if (day.toDateString() === (new Date).toDateString()) {
-            td.find(".day").addClass("today");
+            $day.addClass("today");
           }
 
           //if day is not in this month
           if (day.getMonth() != fromDate.getMonth()) {
-            td.find(".day").addClass("wrong-month");
+            $day.addClass("wrong-month");
           }
 
           // filter today's events
           var todayEvents = plugin.getDateEvents(day);
 
           if (todayEvents.length && plugin.settings.displayEvent) {
-            td.find(".day").addClass(plugin.settings.disableEventDetails ? "has-event disabled" : "has-event");
+            $day.addClass(plugin.settings.disableEventDetails ? "has-event disabled" : "has-event");
           } else {
-            td.find(".day").addClass(plugin.settings.disableEmptyDetails ? "disabled" : "");
+            $day.addClass(plugin.settings.disableEmptyDetails ? "disabled" : "");
           }
+
+          // associate some data available from the onDayCreate callback
+          $day.data( 'todayEvents', todayEvents );
+
+          // simplify further customization
+          this.settings.onDayCreate( $day, day.getDate(), m, y );
 
           tr.append(td);
           day.setDate(day.getDate() + 1);
@@ -142,13 +161,15 @@
       var plugin = this;
 
       //Click previous month
-      $(plugin.element).on('click', '.btn-prev', function () {
+      $(plugin.element).on('click', '.btn-prev', function ( e ) {
         plugin.changeMonth(-1)
+        e.preventDefault();
       });
 
       //Click next month
-      $(plugin.element).on('click', '.btn-next', function () {
-        plugin.changeMonth(1)
+      $(plugin.element).on('click', '.btn-next', function ( e ) {
+        plugin.changeMonth(1);
+        e.preventDefault();
       });
 
       //Binding day event
@@ -180,6 +201,13 @@
           ' <div class="event-date">' + plugin.formatDateEvent(startDate, endDate) + '</div>' +
           ' <div class="event-summary">' + event.summary + '</div>' +
           '</div>');
+
+        $event.data( 'event', event );
+        $event.click( plugin.settings.onEventSelect );
+
+        // simplify further customization
+        plugin.settings.onEventCreate( $event );
+
         container.append($event);
       })
     },

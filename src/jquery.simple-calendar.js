@@ -10,7 +10,7 @@
       months: ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'], //string of months starting from january
       days: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'], //string of days starting from sunday
       displayYear: true, // display year in header
-      fixedStartDay: true, // Week begin always by monday
+      fixedStartDay: true, // Week begin always by monday or by day set by number 0 = sunday, 7 = saturday, false = month always begin by first day of the month
       displayEvent: true, // display existing event
       disableEventDetails: false, // disable showing event details
       disableEmptyDetails: false, // disable showing empty date details
@@ -73,25 +73,33 @@
       var thead = $('<thead></thead>');
       var tbody = $('<tbody></tbody>');
 
-      //Header day in a week ( (1 to 8) % 7 to start the week by monday)
-      for (var i = 1; i <= this.settings.days.length; i++) {
-        thead.append($('<td>' + this.settings.days[i % 7].substring(0, 3) + '</td>'));
-      }
-
       //setting current year and month
       var y = fromDate.getFullYear(), m = fromDate.getMonth();
 
       //first day of the month
       var firstDay = new Date(y, m, 1);
-      //If not monday set to previous monday
-      while (firstDay.getDay() != 1) {
-        firstDay.setDate(firstDay.getDate() - 1);
-      }
       //last day of the month
       var lastDay = new Date(y, m + 1, 0);
-      //If not sunday set to next sunday
-      while (lastDay.getDay() != 0) {
-        lastDay.setDate(lastDay.getDate() + 1);
+      // Start day of weeks
+      var startDayOfWeek = firstDay.getDay();
+
+      if (this.settings.fixedStartDay !== false) {
+        // Backward compatibility
+        startDayOfWeek =  this.settings.fixedStartDay ? 1 : this.settings.fixedStartDay;
+
+        // If first day of month is different of startDayOfWeek
+        while (firstDay.getDay() !== startDayOfWeek) {
+          firstDay.setDate(firstDay.getDate() - 1);
+        }
+        // If last day of month is different of startDayOfWeek + 7
+        while (lastDay.getDay() !== ((startDayOfWeek + 7) % 7)) {
+          lastDay.setDate(lastDay.getDate() + 1);
+        }
+      }
+
+      //Header day in a week ( (x to x + 7) % 7 to start the week by monday if x = 1)
+      for (var i = startDayOfWeek; i < startDayOfWeek + 7; i++) {
+        thead.append($('<td>' + this.settings.days[i % 7].substring(0, 3) + '</td>'));
       }
 
       //For firstDay to lastDay

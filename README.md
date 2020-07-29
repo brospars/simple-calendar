@@ -40,7 +40,7 @@ $(document).ready(function(){
         months: ['january','february','march','april','may','june','july','august','september','october','november','december'],
         days: ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'],
         displayYear: true,              // Display year in header
-        fixedStartDay: true,            // Week begin always by monday
+        fixedStartDay: true,            // Week begin always by monday or by day set by number 0 = sunday, 7 = saturday, false = month always begin by first day of the month
         displayEvent: true,             // Display existing event
         disableEventDetails: false, // disable showing event details
         disableEmptyDetails: false, // disable showing empty date details
