@@ -151,7 +151,7 @@
       calendar.append(eventContainer);
     },
     changeMonth: function (value) {
-      this.currentDate.setMonth(this.currentDate.getMonth() + value);
+      this.currentDate.setMonth(this.currentDate.getMonth() + value, 1);
       this.buildCalendar(this.currentDate, $(this.element).find('.calendar'));
       this.updateHeader(this.currentDate, $(this.element).find('.calendar header'));
       this.settings.onMonthChange(this.currentDate.getMonth(), this.currentDate.getFullYear())
