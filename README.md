@@ -65,3 +65,17 @@ Events are json object that contains `startDate`, `endDate`, and `summary`
     summary: string
 }
 ```
+
+To add new event, first get the plugin instance from the data properties and use the addEvent Method. 
+```javascript
+var container = $("#container").simpleCalendar({ ...code });
+let $calendar = container.data('plugin_simpleCalendar')
+
+var newEvent = {
+          startDate: new Date(new Date().setHours(new Date().getHours() + 48)).toISOString(),
+          endDate: new Date(new Date().setHours(new Date().getHours() + 49)).getTime(),
+          summary: 'New event'
+        }
+
+$calendar.addEvent(newEvent)
+```

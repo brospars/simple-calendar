@@ -18,8 +18,9 @@
         crossorigin="anonymous"></script>
 <script src="dist/jquery.simple-calendar.js"></script>
 <script>
+  var $calendar;
   $(document).ready(function () {
-    $("#container").simpleCalendar({
+    let container = $("#container").simpleCalendar({
       fixedStartDay: 0, // begin weeks by sunday
       disableEmptyDetails: true,
       events: [
@@ -44,6 +45,7 @@
       ],
 
     });
+    $calendar = container.data('plugin_simpleCalendar')
   });
 </script>
 </body>
