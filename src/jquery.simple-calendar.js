@@ -92,7 +92,7 @@
           firstDay.setDate(firstDay.getDate() - 1);
         }
         // If last day of month is different of startDayOfWeek + 7
-        while (lastDay.getDay() !== ((startDayOfWeek + 7) % 7)) {
+        while (lastDay.getDay() !== ((startDayOfWeek + 6) % 7)) {
           lastDay.setDate(lastDay.getDate() + 1);
         }
       }
@@ -211,6 +211,12 @@
         container.append($event);
       })
     },
+    addEvent: function(newEvent) {
+      var plugin = this;
+      // add the new event to events list
+      plugin.settings.events = [...plugin.settings.events, newEvent]
+      this.buildCalendar(this.currentDate, $(this.element).find('.calendar'));
+    },
     //Small effect to fillup a container
     fillUp: function (x, y) {
       var plugin = this;
@@ -255,7 +261,7 @@
     getDateEvents: function (d) {
       var plugin = this;
       return plugin.settings.events.filter(function (event) {
-        return plugin.isDayBetween(d, new Date(event.startDate), new Date(event.endDate));
+        return plugin.isDayBetween(new Date(d), new Date(event.startDate), new Date(event.endDate));
       });
     },
     isDayBetween: function (d, dStart, dEnd) {

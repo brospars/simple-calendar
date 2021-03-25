@@ -92,7 +92,7 @@
           firstDay.setDate(firstDay.getDate() - 1);
         }
         // If last day of month is different of startDayOfWeek + 7
-        while (lastDay.getDay() !== ((startDayOfWeek + 7) % 7)) {
+        while (lastDay.getDay() !== ((startDayOfWeek + 6) % 7)) {
           lastDay.setDate(lastDay.getDate() + 1);
         }
       }
@@ -261,7 +261,7 @@
     getDateEvents: function (d) {
       var plugin = this;
       return plugin.settings.events.filter(function (event) {
-        return plugin.isDayBetween(d, new Date(event.startDate), new Date(event.endDate));
+        return plugin.isDayBetween(new Date(d), new Date(event.startDate), new Date(event.endDate));
       });
     },
     isDayBetween: function (d, dStart, dEnd) {
