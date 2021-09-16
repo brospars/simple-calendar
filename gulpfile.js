@@ -1,10 +1,8 @@
 const { src, dest, parallel, watch } = require('gulp');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('node-sass'));
 const rename = require('gulp-rename');
 const uglify = require('gulp-terser');
 const plumber = require('gulp-plumber');
-
-sass.compiler = require('node-sass');
 
 function css() {
     return src('src/*.scss')
