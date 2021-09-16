@@ -85,7 +85,7 @@
 
       if (this.settings.fixedStartDay !== false) {
         // Backward compatibility
-        startDayOfWeek =  this.settings.fixedStartDay ? 1 : this.settings.fixedStartDay;
+        startDayOfWeek =  this.settings.fixedStartDay === true ? 1 : this.settings.fixedStartDay;
 
         // If first day of month is different of startDayOfWeek
         while (firstDay.getDay() !== startDayOfWeek) {
@@ -291,5 +291,4 @@
       }
     });
   };
-
 })(jQuery, window, document);
