@@ -160,6 +160,9 @@
     bindEvents: function () {
       var plugin = this;
 
+      //Remove previously created events
+      $(plugin.element).off();
+
       //Click previous month
       $(plugin.element).on('click', '.btn-prev', function ( e ) {
         plugin.changeMonth(-1)
