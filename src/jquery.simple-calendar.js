@@ -220,6 +220,12 @@
       plugin.settings.events = [...plugin.settings.events, newEvent]
       this.buildCalendar(this.currentDate, $(this.element).find('.calendar'));
     },
+    setEvents: function(newEvents) {
+      var plugin = this;
+      // add the new event to events list
+      plugin.settings.events = newEvents
+      this.buildCalendar(this.currentDate, $(this.element).find('.calendar'));
+    },
     //Small effect to fillup a container
     fillUp: function (x, y) {
       var plugin = this;

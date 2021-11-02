@@ -55,27 +55,48 @@ $(document).ready(function(){
 });
 ```
 
-#### Events
+#### Calendar events
 
 Events are json object that contains `startDate`, `endDate`, and `summary`
 ```javascript
-{
+var events = [{
     startDate: Date|timestamp|ISOstring,
     endDate: Date|timestamp|ISOstring,
     summary: string
-}
+}]
 ```
 
-To add new event, first get the plugin instance from the data properties and use the addEvent Method. 
+### Methods
+
+To use methods, first get the plugin instance from the data properties and then use the following methods.
 ```javascript
 var container = $("#container").simpleCalendar({ ...code });
 let $calendar = container.data('plugin_simpleCalendar')
+```
 
+#### Add event
+```javascript
 var newEvent = {
-          startDate: new Date(new Date().setHours(new Date().getHours() + 48)).toISOString(),
-          endDate: new Date(new Date().setHours(new Date().getHours() + 49)).getTime(),
-          summary: 'New event'
-        }
+  startDate: new Date(new Date().setHours(new Date().getHours() + 48)).toISOString(),
+  endDate: new Date(new Date().setHours(new Date().getHours() + 49)).getTime(),
+  summary: 'New event'
+}
 
 $calendar.addEvent(newEvent)
+```
+
+#### Set events
+```javascript
+var events = [{
+  startDate: new Date(new Date().setHours(new Date().getHours() + 48)).toISOString(),
+  endDate: new Date(new Date().setHours(new Date().getHours() + 49)).getTime(),
+  summary: 'New event'
+},
+{
+  startDate: new Date(new Date().setHours(new Date().getHours() - 24)).toISOString(),
+  endDate: new Date(new Date().setHours(new Date().getHours() - 23)).getTime(),
+  summary: 'New event 2'
+}]
+
+$calendar.setEvents(events)
 ```
