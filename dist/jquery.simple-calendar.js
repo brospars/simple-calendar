@@ -160,6 +160,9 @@
     bindEvents: function () {
       var plugin = this;
 
+      //Remove previously created events
+      $(plugin.element).off();
+
       //Click previous month
       $(plugin.element).on('click', '.btn-prev', function ( e ) {
         plugin.changeMonth(-1)
@@ -215,6 +218,12 @@
       var plugin = this;
       // add the new event to events list
       plugin.settings.events = [...plugin.settings.events, newEvent]
+      this.buildCalendar(this.currentDate, $(this.element).find('.calendar'));
+    },
+    setEvents: function(newEvents) {
+      var plugin = this;
+      // add the new event to events list
+      plugin.settings.events = newEvents
       this.buildCalendar(this.currentDate, $(this.element).find('.calendar'));
     },
     //Small effect to fillup a container
