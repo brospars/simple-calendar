@@ -17,7 +17,7 @@
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^5.0.0",
-    "gulp-terser": "^2.0.1",
+    "gulp-terser": "^2.1.0",
     "node-sass": "^7.0.0"
   }
 }
