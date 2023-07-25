@@ -202,7 +202,7 @@
           '<div class="event">' +
           ' <div class="event-hour">' + startDate.getHours() + ':' + (startDate.getMinutes() < 10 ? '0' : '') + startDate.getMinutes() + '</div>' +
           ' <div class="event-date">' + plugin.formatDateEvent(startDate, endDate) + '</div>' +
-          ' <div class="event-summary">' + event.summary + '</div>' +
+          ' <div class="event-summary"><a href="' + event.link + '">' + event.summary + '</a></div>' +
           '</div>');
 
         $event.data( 'event', event );
