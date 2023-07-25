@@ -62,7 +62,8 @@ Events are json object that contains `startDate`, `endDate`, and `summary`
 var events = [{
     startDate: Date|timestamp|ISOstring,
     endDate: Date|timestamp|ISOstring,
-    summary: string
+    summary: string,
+    link: string
 }]
 ```
 
@@ -79,7 +80,8 @@ let $calendar = container.data('plugin_simpleCalendar')
 var newEvent = {
   startDate: new Date(new Date().setHours(new Date().getHours() + 48)).toISOString(),
   endDate: new Date(new Date().setHours(new Date().getHours() + 49)).getTime(),
-  summary: 'New event'
+  summary: 'New event',
+  link: 'http://link.com'
 }
 
 $calendar.addEvent(newEvent)
@@ -90,12 +92,14 @@ $calendar.addEvent(newEvent)
 var events = [{
   startDate: new Date(new Date().setHours(new Date().getHours() + 48)).toISOString(),
   endDate: new Date(new Date().setHours(new Date().getHours() + 49)).getTime(),
-  summary: 'New event'
+  summary: 'New event',
+  link: 'http://link.com'
 },
 {
   startDate: new Date(new Date().setHours(new Date().getHours() - 24)).toISOString(),
   endDate: new Date(new Date().setHours(new Date().getHours() - 23)).getTime(),
-  summary: 'New event 2'
+  summary: 'New event 2',
+  link: 'http://link2.com'
 }]
 
 $calendar.setEvents(events)
